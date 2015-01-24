@@ -15,11 +15,12 @@ public class MyActivity extends ActionBarActivity {
     @Click(R.id.lista)
         void startClicked(){
 
-        startActivity(new Intent(this, lista.class));
+        startActivity(new Intent(this, lista_.class));
     }
 @Click(R.id.zaloguj)
     void loginClicked(){
 
     startActivity(new Intent(this, zaloguj.class));
 }
+
 }

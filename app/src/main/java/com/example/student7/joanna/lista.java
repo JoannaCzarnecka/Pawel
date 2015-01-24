@@ -1,36 +1,66 @@
 package com.example.student7.joanna;
 
+import android.app.ProgressDialog;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+import android.widget.Toast;
 
+import com.example.student7.joanna.adapter.RecipeListAdapter;
+import com.example.student7.joanna.data.Recipe;
+import com.example.student7.joanna.data.RecipeList;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.ItemClick;
+import org.androidannotations.annotations.NonConfigurationInstance;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
+import org.androidannotations.annotations.ViewById;
+
+@EActivity(R.layout.activity_lista)
 public class lista extends ActionBarActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lista);
+    @ViewById
+    ListView lista;
+
+    @Bean
+    RecipeListAdapter adapter;
+
+    @Bean
+    @NonConfigurationInstance
+    RestListaBackgroundTask restBackgroundTask;
+    ProgressDialog ringProgressDialog;
+
+    @AfterViews
+    void init() {
+        lista.setAdapter(adapter);
+
+        ringProgressDialog = new ProgressDialog(this);
+        ringProgressDialog.setMessage("Ładowanie...");
+        ringProgressDialog.setIndeterminate(true);
+        ringProgressDialog.show();
+        restBackgroundTask.getRecipeList();
+
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.lista, menu);
-        return true;
+    public void updateRecipeList(RecipeList recipeList) {
+        ringProgressDialog.dismiss();
+        adapter.update(recipeList);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+    public void showError(Exception e) {
+        ringProgressDialog.dismiss();
+        Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+        e.printStackTrace();
+    }
+    @ItemClick
+    void listaItemClicked(Recipe item) {
+        RecipeActivity_.intent(this).recipe(item).start();
     }
 }

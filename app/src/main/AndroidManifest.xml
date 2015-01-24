@@ -17,13 +17,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".lista"
-            android:label="@string/title_activity_lista" >
+            android:name=".lista_"
+             >
         </activity>
         <activity
             android:name=".zaloguj"
-            android:label="@string/title_activity_zaloguj" >
+             >
+        </activity>
+        <activity
+            android:name=".RecipeActivity_"
+            >
         </activity>
     </application>
-
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
