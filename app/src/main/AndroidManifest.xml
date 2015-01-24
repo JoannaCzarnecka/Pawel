@@ -21,11 +21,15 @@
              >
         </activity>
         <activity
-            android:name=".zaloguj"
+            android:name=".zaloguj_"
              >
         </activity>
         <activity
             android:name=".RecipeActivity_"
+            >
+        </activity>
+        <activity
+            android:name=".AddRecipeActivity_"
             >
         </activity>
     </application>

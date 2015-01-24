@@ -28,15 +28,7 @@
         android:layout_below="@+id/lista"
         android:layout_centerHorizontal="true" />
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Zaloguj się"
-        android:id="@+id/zaloguj"
-        android:textSize="35dp"
-        android:textColor="#ffff44d9"
-        android:layout_below="@+id/dodaj"
-        android:layout_centerHorizontal="true" />
+
 
 
 
@@ -47,7 +39,8 @@
         android:src="@drawable/cookbook"
         android:maxHeight="10dp"
         android:maxWidth="10dp"
-        android:layout_below="@+id/zaloguj"/>
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/dodaj"/>
 
 
 

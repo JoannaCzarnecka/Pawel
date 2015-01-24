@@ -1,6 +1,9 @@
 package com.example.student7.joanna;
 
+import android.widget.Toast;
+
 import com.example.student7.joanna.data.EmailAndPassword;
+import com.example.student7.joanna.data.User;
 
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EBean;
@@ -21,7 +24,7 @@ public class RestLoginBackgroundTask {
     @Background
     void login(EmailAndPassword emailAndPassword) {
         try {
-            restClient.setHeader("X-Dreamfactory-Application-Name", "phonebook");
+            restClient.setHeader("X-Dreamfactory-Application-Name", "cookbook");
             User user = restClient.login(emailAndPassword);
             publishResult(user);
         } catch (Exception e) {
@@ -36,7 +39,7 @@ public class RestLoginBackgroundTask {
 
     @UiThread
     void publishError(Exception e) {
-        activity.showError(e);
+
     }
 
 }

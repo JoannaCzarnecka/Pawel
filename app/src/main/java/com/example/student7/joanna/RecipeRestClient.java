@@ -1,8 +1,9 @@
 package com.example.student7.joanna;
 
+import com.example.student7.joanna.data.EmailAndPassword;
 import com.example.student7.joanna.data.Recipe;
 import com.example.student7.joanna.data.RecipeList;
-
+import com.example.student7.joanna.data.User;
 
 
 import org.androidannotations.annotations.rest.Get;
@@ -27,6 +28,6 @@ public interface RecipeRestClient extends RestClientHeaders {
     void addRecipeList (Recipe recipe);
 
 
-   // @Post("/user/session")
-   // User login(EmailAndPassword emailAndPassword);
+  @Post("/user/session")
+  User login(EmailAndPassword emailAndPassword);
 }

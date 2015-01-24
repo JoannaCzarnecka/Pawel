@@ -1,36 +1,69 @@
 package com.example.student7.joanna;
 
+import android.app.ProgressDialog;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.example.student7.joanna.data.EmailAndPassword;
+import com.example.student7.joanna.data.User;
+
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.NonConfigurationInstance;
+import org.androidannotations.annotations.ViewById;
 
 
+@EActivity(R.layout.activity_zaloguj)
 public class zaloguj extends ActionBarActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_zaloguj);
+    public void loginSuccess(User user) {
+       ringProgressDialog.dismiss();
+        Toast.makeText(this,user.sessionId, Toast.LENGTH_LONG).show();
+        AddRecipeActivity_.intent(this).user(user).start();
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.zaloguj, menu);
-        return true;
+    public void showError(Exception e) {
+        ringProgressDialog.dismiss();
+        Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+        e.printStackTrace();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+    @ViewById
+    EditText email;
+
+    @ViewById
+    EditText password;
+
+    @Bean
+    @NonConfigurationInstance
+    RestLoginBackgroundTask restLoginBackgroundTask;
+    ProgressDialog ringProgressDialog;
+
+    @AfterViews
+    void init() {
+        ringProgressDialog = new ProgressDialog(this);
+        ringProgressDialog.setMessage("Trwa ładowanie...");
+        ringProgressDialog.setIndeterminate(true);
+        if (user != null) {
+            AddRecipeActivity_.intent(this).user(user).start();
+            finish();
         }
-        return super.onOptionsItemSelected(item);
     }
+    @Click(R.id.LoginButton)
+    void LogowanieClicked() {
+        EmailAndPassword emailAndPassword = new EmailAndPassword();
+        emailAndPassword.email = email.getText().toString();
+        emailAndPassword.password = password.getText().toString();
+        ringProgressDialog.show();
+        restLoginBackgroundTask.login(emailAndPassword);
+    }
+    @Extra
+    User user;
 }
